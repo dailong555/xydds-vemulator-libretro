@@ -135,6 +135,16 @@ else ifeq ($(platform), miyoo)
    AR = /opt/miyoo/usr/bin/arm-linux-ar
    PLATFORM_DEFINES += -D_GNU_SOURCE
    CFLAGS += -fomit-frame-pointer -ffast-math -march=armv5te -mtune=arm926ej-s
+else ifeq ($(platform), xydds)
+   TARGET := $(TARGET_NAME)_libretro.so
+   fpic := -fPIC
+   SHARED := -shared -Wl,--version-script=link.T  -Wl,--no-undefined
+   CC = /opt/xydds/usr/bin/arm-linux-gcc
+   CXX = /opt/xydds/usr/bin/arm-linux-g++
+   AR = /opt/xydds/usr/bin/arm-linux-ar
+   PLATFORM_DEFINES += -D_GNU_SOURCE
+   CFLAGS += -fomit-frame-pointer -ffast-math -marm -mfpu=neon-vfpv4 -mfloat-abi=hard
+   CFLAGS += -DRETROFW -DARM -mcpu=cortex-a7
 else
    CC ?= gcc
    CXX ?= g++
